@@ -1,0 +1,399 @@
+{
+    "cities": [
+        {
+            "pk_city": 1,
+            "name": "Новосибирск"
+        },
+        {
+            "pk_city": 2,
+            "name": "Барнаул"
+        },
+        {
+            "pk_city": 3,
+            "name": "Бийск"
+        },
+        {
+            "pk_city": 4,
+            "name": "Горно-Алтайск"
+        }
+    ],
+    "automarkets": [
+        {
+            "pk_automarket": 1,
+            "name": "Автосалон Новосибирск 1",
+            "fk_city": 1
+        },
+        {
+            "pk_automarket": 2,
+            "name": "Автосалон Новосибирск 2",
+            "fk_city": 1
+        },
+        {
+            "pk_automarket": 3,
+            "name": "Автосалон Барнаул 1",
+            "fk_city": 2
+        },
+        {
+            "pk_automarket": 4,
+            "name": "Автосалон Бийск 1",
+            "fk_city": 3
+        },
+        {
+            "pk_automarket": 5,
+            "name": "Автосалон Горно-Алтайск 1",
+            "fk_city": 4
+        }
+    ],
+    "autos": [
+        {
+            "pk_auto": 1,
+            "name": "Toyota Camry",
+            "fk_automarket": 1,
+            "price": 35000.0,
+            "year_of_release": "2022-01-01"
+        },
+        {
+            "pk_auto": 2,
+            "name": "Honda Civic",
+            "fk_automarket": 2,
+            "price": 28000.0,
+            "year_of_release": "2023-05-15"
+        },
+        {
+            "pk_auto": 3,
+            "name": "BMW X5",
+            "fk_automarket": 1,
+            "price": 70000.0,
+            "year_of_release": "2021-12-10"
+        },
+        {
+            "pk_auto": 4,
+            "name": "Audi A4",
+            "fk_automarket": 3,
+            "price": 40000.0,
+            "year_of_release": "2022-10-20"
+        },
+        {
+            "pk_auto": 5,
+            "name": "Mercedes C-Class",
+            "fk_automarket": 3,
+            "price": 55000.0,
+            "year_of_release": "2023-03-01"
+        },
+        {
+            "pk_auto": 6,
+            "name": "BMW 3 Series",
+            "fk_automarket": 4,
+            "price": 60000.0,
+            "year_of_release": "2022-11-01"
+        },
+        {
+            "pk_auto": 7,
+            "name": "Audi A4",
+            "fk_automarket": 5,
+            "price": 58000.0,
+            "year_of_release": "2021-10-15"
+        },
+        {
+            "pk_auto": 8,
+            "name": "Hyundai Tucson",
+            "fk_automarket": 2,
+            "price": 27000.0,
+            "year_of_release": "2023-05-02"
+        },
+        {
+            "pk_auto": 9,
+            "name": "Kia Sportage",
+            "fk_automarket": 3,
+            "price": 26000.0,
+            "year_of_release": "2020-08-08"
+        },
+        {
+            "pk_auto": 10,
+            "name": "Mazda CX-5",
+            "fk_automarket": 1,
+            "price": 31000.0,
+            "year_of_release": "2022-06-06"
+        },
+        {
+            "pk_auto": 11,
+            "name": "Subaru Forester",
+            "fk_automarket": 4,
+            "price": 32000.0,
+            "year_of_release": "2021-04-04"
+        },
+        {
+            "pk_auto": 12,
+            "name": "Volkswagen Tiguan",
+            "fk_automarket": 5,
+            "price": 33000.0,
+            "year_of_release": "2023-09-09"
+        },
+        {
+            "pk_auto": 13,
+            "name": "Lexus RX",
+            "fk_automarket": 2,
+            "price": 65000.0,
+            "year_of_release": "2020-03-15"
+        },
+        {
+            "pk_auto": 14,
+            "name": "Volvo XC60",
+            "fk_automarket": 3,
+            "price": 58000.0,
+            "year_of_release": "2022-07-07"
+        },
+        {
+            "pk_auto": 15,
+            "name": "Tesla Model 3",
+            "fk_automarket": 1,
+            "price": 45000.0,
+            "year_of_release": "2023-04-01"
+        },
+        {
+            "pk_auto": 16,
+            "name": "Chevrolet Equinox",
+            "fk_automarket": 4,
+            "price": 29000.0,
+            "year_of_release": "2021-01-15"
+        },
+        {
+            "pk_auto": 17,
+            "name": "Jeep Grand Cherokee",
+            "fk_automarket": 5,
+            "price": 40000.0,
+            "year_of_release": "2022-12-25"
+        },
+        {
+            "pk_auto": 18,
+            "name": "Land Rover Discovery",
+            "fk_automarket": 2,
+            "price": 70000.0,
+            "year_of_release": "2020-10-10"
+        },
+        {
+            "pk_auto": 19,
+            "name": "Porsche Cayenne",
+            "fk_automarket": 3,
+            "price": 90000.0,
+            "year_of_release": "2023-06-30"
+        },
+        {
+            "pk_auto": 20,
+            "name": "Jaguar F-Pace",
+            "fk_automarket": 1,
+            "price": 75000.0,
+            "year_of_release": "2021-07-07"
+        },
+        {
+            "pk_auto": 21,
+            "name": "Infiniti QX50",
+            "fk_automarket": 4,
+            "price": 48000.0,
+            "year_of_release": "2023-08-12"
+        },
+        {
+            "pk_auto": 22,
+            "name": "Acura MDX",
+            "fk_automarket": 5,
+            "price": 62000.0,
+            "year_of_release": "2020-09-01"
+        },
+        {
+            "pk_auto": 23,
+            "name": "Cadillac XT5",
+            "fk_automarket": 2,
+            "price": 55000.0,
+            "year_of_release": "2022-02-28"
+        },
+        {
+            "pk_auto": 24,
+            "name": "Alfa Romeo Stelvio",
+            "fk_automarket": 3,
+            "price": 68000.0,
+            "year_of_release": "2021-05-05"
+        },
+        {
+            "pk_auto": 25,
+            "name": "Genesis GV70",
+            "fk_automarket": 1,
+            "price": 59000.0,
+            "year_of_release": "2023-01-01"
+        },
+        {
+            "pk_auto": 26,
+            "name": "Lincoln Corsair",
+            "fk_automarket": 4,
+            "price": 49000.0,
+            "year_of_release": "2020-04-15"
+        },
+        {
+            "pk_auto": 27,
+            "name": "Buick Envision",
+            "fk_automarket": 5,
+            "price": 42000.0,
+            "year_of_release": "2022-10-02"
+        },
+        {
+            "pk_auto": 28,
+            "name": "Mini Countryman",
+            "fk_automarket": 2,
+            "price": 37000.0,
+            "year_of_release": "2023-07-15"
+        },
+        {
+            "pk_auto": 29,
+            "name": "Peugeot 3008",
+            "fk_automarket": 3,
+            "price": 30000.0,
+            "year_of_release": "2021-01-12"
+        },
+        {
+            "pk_auto": 30,
+            "name": "Renault Koleos",
+            "fk_automarket": 1,
+            "price": 28000.0,
+            "year_of_release": "2023-03-02"
+        },
+        {
+            "pk_auto": 31,
+            "name": "Skoda Kodiaq",
+            "fk_automarket": 4,
+            "price": 36000.0,
+            "year_of_release": "2022-12-12"
+        },
+        {
+            "pk_auto": 32,
+            "name": "Citroen C5 Aircross",
+            "fk_automarket": 5,
+            "price": 32000.0,
+            "year_of_release": "2020-06-01"
+        },
+        {
+            "pk_auto": 33,
+            "name": "Opel Grandland",
+            "fk_automarket": 2,
+            "price": 31000.0,
+            "year_of_release": "2023-11-01"
+        },
+        {
+            "pk_auto": 34,
+            "name": "Fiat 500X",
+            "fk_automarket": 3,
+            "price": 24000.0,
+            "year_of_release": "2021-09-10"
+        },
+        {
+            "pk_auto": 35,
+            "name": "Seat Ateca",
+            "fk_automarket": 1,
+            "price": 27000.0,
+            "year_of_release": "2022-08-08"
+        },
+        {
+            "pk_auto": 36,
+            "name": "DS 7 Crossback",
+            "fk_automarket": 4,
+            "price": 48000.0,
+            "year_of_release": "2020-01-01"
+        },
+        {
+            "pk_auto": 37,
+            "name": "Cupra Formentor",
+            "fk_automarket": 5,
+            "price": 44000.0,
+            "year_of_release": "2023-04-05"
+        },
+        {
+            "pk_auto": 38,
+            "name": "Maserati Grecale",
+            "fk_automarket": 2,
+            "price": 85000.0,
+            "year_of_release": "2021-01-15"
+        },
+        {
+            "pk_auto": 39,
+            "name": "Lamborghini Urus",
+            "fk_automarket": 3,
+            "price": 250000.0,
+            "year_of_release": "2022-05-05"
+        },
+        {
+            "pk_auto": 40,
+            "name": "Ferrari Purosangue",
+            "fk_automarket": 1,
+            "price": 300000.0,
+            "year_of_release": "2023-12-01"
+        },
+        {
+            "pk_auto": 41,
+            "name": "Rolls-Royce Cullinan",
+            "fk_automarket": 4,
+            "price": 400000.0,
+            "year_of_release": "2022-01-10"
+        },
+        {
+            "pk_auto": 42,
+            "name": "Bentley Bentayga",
+            "fk_automarket": 5,
+            "price": 280000.0,
+            "year_of_release": "2020-11-11"
+        },
+        {
+            "pk_auto": 43,
+            "name": "Maybach GLS",
+            "fk_automarket": 2,
+            "price": 200000.0,
+            "year_of_release": "2023-02-20"
+        },
+        {
+            "pk_auto": 44,
+            "name": "McLaren Artura",
+            "fk_automarket": 3,
+            "price": 220000.0,
+            "year_of_release": "2021-04-10"
+        },
+        {
+            "pk_auto": 45,
+            "name": "Aston Martin DBX",
+            "fk_automarket": 1,
+            "price": 230000.0,
+            "year_of_release": "2022-10-25"
+        },
+        {
+            "pk_auto": 46,
+            "name": "Bugatti Chiron",
+            "fk_automarket": 4,
+            "price": 3500000.0,
+            "year_of_release": "2020-06-15"
+        },
+        {
+            "pk_auto": 47,
+            "name": "Pagani Huayra",
+            "fk_automarket": 5,
+            "price": 2800000.0,
+            "year_of_release": "2023-08-08"
+        },
+        {
+            "pk_auto": 48,
+            "name": "Koenigsegg Jesko",
+            "fk_automarket": 2,
+            "price": 3000000.0,
+            "year_of_release": "2021-07-12"
+        },
+        {
+            "pk_auto": 49,
+            "name": "Hennessey Venom F5",
+            "fk_automarket": 3,
+            "price": 2200000.0,
+            "year_of_release": "2022-09-01"
+        },
+        {
+            "pk_auto": 50,
+            "name": "SSC Tuatara",
+            "fk_automarket": 1,
+            "price": 2000000.0,
+            "year_of_release": "2023-05-05"
+        }
+    ]
+}
