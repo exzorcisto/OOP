@@ -4,7 +4,7 @@ from datetime import date
 import os
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
-
+from typing import List
 
 @dataclass
 class City:
@@ -84,12 +84,53 @@ class AbstractAutoSells(ABC):
 
 
 class AutoSells(AbstractAutoSells):
+
+    _instance = None  # Static field to hold the singleton instance
+    DATABASE_VERSION = 1.0  # Static field for database version
+
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super().__new__(cls, *args, **kwargs)
+        return cls._instance
+
+
     def __init__(self, db_path="autosells.db"): # Changed extension to .db
+        if hasattr(self, '_is_initialized'):
+            return  # Prevent re-initialization
         self.db_path = db_path
         self.conn = sqlite3.connect(self.db_path)  # Connect to SQLite database
         self.cursor = self.conn.cursor()  # Create a cursor object
         self._create_tables() # Creates Tables.
-        # Removed json loading/saving logic
+
+        self.cities: List[City] = []
+        self.automarkets: List[AutoMarket] = []
+        self.autos: List[Auto] = []
+        self._load_data() # Load data from the database into the lists
+
+        self._is_initialized = True
+
+
+    def _load_data(self):
+        """Loads data from the database into the lists."""
+        self.cities = self._load_cities()
+        self.automarkets = self._load_automarkets()
+        self.autos = self._load_autos()
+
+    def _load_cities(self):
+        self.cursor.execute("SELECT pk_city, name FROM Cities")
+        rows = self.cursor.fetchall()
+        return [City(pk_city=row[0], name=row[1]) for row in rows]
+
+    def _load_automarkets(self):
+        self.cursor.execute("SELECT pk_automarket, name, fk_city FROM AutoMarkets")
+        rows = self.cursor.fetchall()
+        return [AutoMarket(pk_automarket=row[0], name=row[1], fk_city=row[2]) for row in rows]
+
+    def _load_autos(self):
+        self.cursor.execute("SELECT pk_auto, name, fk_automarket, price, year_of_release FROM Autos")
+        rows = self.cursor.fetchall()
+        return [Auto(pk_auto=row[0], name=row[1], fk_automarket=row[2], price=row[3], year_of_release=date.fromisoformat(row[4])) for row in rows]
+
 
     def _create_tables(self):
         self.cursor.execute("""
@@ -127,76 +168,55 @@ class AutoSells(AbstractAutoSells):
             self.cursor.execute("INSERT INTO Cities (pk_city, name) VALUES (?, ?)",
                                 (city.pk_city, city.name))
             self.conn.commit()
+            self.cities.append(city)  # Add to the list
 
     def add_automarket(self, automarket: AutoMarket):
         if not self._check_if_exists("AutoMarkets", "pk_automarket", automarket.pk_automarket):
             self.cursor.execute("INSERT INTO AutoMarkets (pk_automarket, name, fk_city) VALUES (?, ?, ?)",
                                 (automarket.pk_automarket, automarket.name, automarket.fk_city))
             self.conn.commit()
+            self.automarkets.append(automarket)  # Add to the list
+
 
     def add_auto(self, auto: Auto):
         if not self._check_if_exists("Autos", "pk_auto", auto.pk_auto):
             self.cursor.execute("INSERT INTO Autos (pk_auto, name, fk_automarket, price, year_of_release) VALUES (?, ?, ?, ?, ?)",
                                 (auto.pk_auto, auto.name, auto.fk_automarket, auto.price, auto.year_of_release.isoformat()))  # Store date as ISO format string
             self.conn.commit()
+            self.autos.append(auto)  # Add to the list
 
     def find_autos_by_city(self, city_name: str):
-        self.cursor.execute("""
-            SELECT Autos.pk_auto, Autos.name, Autos.fk_automarket, Autos.price, Autos.year_of_release
-            FROM Autos
-            JOIN AutoMarkets ON Autos.fk_automarket = AutoMarkets.pk_automarket
-            JOIN Cities ON AutoMarkets.fk_city = Cities.pk_city
-            WHERE Cities.name = ?
-        """, (city_name,))
-        rows = self.cursor.fetchall()
-        return [Auto(pk_auto=row[0], name=row[1], fk_automarket=row[2], price=row[3],
-                     year_of_release=date.fromisoformat(row[4])) for row in rows]
+        result: List[Auto] = []
+        for auto in self.autos:
+            automarket = next((am for am in self.automarkets if am.pk_automarket == auto.fk_automarket), None)
+            if automarket:
+                city = next((c for c in self.cities if c.pk_city == automarket.fk_city), None)
+                if city and city.name == city_name:
+                    result.append(auto)
+        return result
 
     def find_autos_by_price_range(self, min_price: float, max_price: float):
-        self.cursor.execute("""
-            SELECT pk_auto, name, fk_automarket, price, year_of_release
-            FROM Autos
-            WHERE price BETWEEN ? AND ?
-        """, (min_price, max_price))
-        rows = self.cursor.fetchall()
-        return [Auto(pk_auto=row[0], name=row[1], fk_automarket=row[2], price=row[3],
-                     year_of_release=date.fromisoformat(row[4])) for row in rows]
+        return [auto for auto in self.autos if min_price <= auto.price <= max_price]
 
     def find_autos_by_automarket(self, automarket_name: str):
-        self.cursor.execute("""
-            SELECT Autos.pk_auto, Autos.name, Autos.fk_automarket, Autos.price, Autos.year_of_release
-            FROM Autos
-            JOIN AutoMarkets ON Autos.fk_automarket = AutoMarkets.pk_automarket
-            WHERE AutoMarkets.name = ?
-        """, (automarket_name,))
-        rows = self.cursor.fetchall()
-        return [Auto(pk_auto=row[0], name=row[1], fk_automarket=row[2], price=row[3],
-                     year_of_release=date.fromisoformat(row[4])) for row in rows]
+         result: List[Auto] = []
+         for auto in self.autos:
+            automarket = next((am for am in self.automarkets if am.pk_automarket == auto.fk_automarket), None)
+            if automarket and automarket.name == automarket_name:
+                result.append(auto)
+         return result
 
     def find_autos_by_year(self, year: int):
-       self.cursor.execute("""
-           SELECT pk_auto, name, fk_automarket, price, year_of_release
-           FROM Autos
-           WHERE SUBSTR(year_of_release, 1, 4) = ?
-       """, (str(year),))
-       rows = self.cursor.fetchall()
-       return [Auto(pk_auto=row[0], name=row[1], fk_automarket=row[2], price=row[3],
-                     year_of_release=date.fromisoformat(row[4])) for row in rows]
+        return [auto for auto in self.autos if auto.year_of_release.year == year]
 
     def list_all_autos(self):
-        self.cursor.execute("SELECT pk_auto, name, year_of_release, price FROM Autos")
-        rows = self.cursor.fetchall()
-        return [f"{row[0]}. {row[1]} ({date.fromisoformat(row[2]).year}), {row[3]}" for row in rows] # added date processing
+        return [str(auto) for auto in self.autos]
 
     def list_all_automarkets(self):
-        self.cursor.execute("SELECT pk_automarket, name FROM AutoMarkets")
-        rows = self.cursor.fetchall()
-        return [f"{row[0]}. {row[1]}" for row in rows]
+        return [str(automarket) for automarket in self.automarkets]
 
     def list_all_cities(self):
-        self.cursor.execute("SELECT pk_city, name FROM Cities")
-        rows = self.cursor.fetchall()
-        return [f"{row[0]}. {row[1]}" for row in rows]
+        return [str(city) for city in self.cities]
 
     def clear_console(self):
         os.system('cls' if os.name == 'nt' else 'clear')
@@ -332,8 +352,16 @@ class AutoSells(AbstractAutoSells):
                 self.scip()
 
     def __str__(self):
-        return f"AutoSells(cities={self.list_all_cities()}, automarkets={self.list_all_automarkets()}, autos={self.list_all_autos()})"
+        return f"AutoSells(cities={self.cities}, automarkets={self.automarkets}, autos={self.autos})"
 
     def __del__(self):  # Close the connection when the object is deleted
         if hasattr(self, 'conn') and self.conn:
             self.conn.close()
+
+    @staticmethod
+    def get_database_version():
+        return AutoSells.DATABASE_VERSION
+
+    @staticmethod
+    def print_database_version():
+        print(f"Database Version: {AutoSells.DATABASE_VERSION}")
