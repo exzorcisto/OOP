@@ -3,6 +3,7 @@ import sqlite3
 from datetime import date
 import os
 from dataclasses import dataclass
+from abc import ABC, abstractmethod
 
 
 @dataclass
@@ -36,7 +37,53 @@ class Auto:
         return f"{self.pk_auto}. {self.name}, Автосалон - {self.fk_automarket}, {self.price}, {self.year_of_release}"
 
 
-class AutoSells:
+class AbstractAutoSells(ABC):
+    @abstractmethod
+    def add_city(self, city: City):
+        pass
+
+    @abstractmethod
+    def add_automarket(self, automarket: AutoMarket):
+        pass
+
+    @abstractmethod
+    def add_auto(self, auto: Auto):
+        pass
+
+    @abstractmethod
+    def find_autos_by_city(self, city_name: str):
+        pass
+
+    @abstractmethod
+    def find_autos_by_price_range(self, min_price: float, max_price: float):
+        pass
+
+    @abstractmethod
+    def find_autos_by_automarket(self, automarket_name: str):
+        pass
+
+    @abstractmethod
+    def find_autos_by_year(self, year: int):
+        pass
+
+    @abstractmethod
+    def list_all_autos(self):
+        pass
+
+    @abstractmethod
+    def list_all_automarkets(self):
+        pass
+
+    @abstractmethod
+    def list_all_cities(self):
+        pass
+
+    @abstractmethod
+    def menu(self):
+        pass
+
+
+class AutoSells(AbstractAutoSells):
     def __init__(self, db_path="autosells.db"): # Changed extension to .db
         self.db_path = db_path
         self.conn = sqlite3.connect(self.db_path)  # Connect to SQLite database

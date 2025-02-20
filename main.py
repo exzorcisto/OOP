@@ -1,5 +1,4 @@
 
-# main.py
 from datetime import date
 from auto_data import AutoSells, City, AutoMarket, Auto
 
