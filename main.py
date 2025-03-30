@@ -9,6 +9,7 @@ if __name__ == "__main__":
     city1 = City(pk_city=1, name="Новосибирск")
     city2 = City(pk_city=2, name="Барнаул")
     city3 = City(pk_city=3, name="Бийск")
+    
     city4 = City(pk_city=4, name="Горно-Алтайск")
 
     autosells.add_city(city1)
